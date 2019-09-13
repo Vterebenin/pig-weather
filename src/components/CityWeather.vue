@@ -13,17 +13,22 @@ export default {
   },
   mounted() {
     const apikey = process.env.API_KEY;
-    const proxy = 'https://cors-anywhere.herokuapp.com/'
-    const query = `${proxy}https://api.darksky.net/forecast/${apikey}/37.8267,-122.4233`;
+    console.log(apikey);
+    const proxy = "https://cors-anywhere.herokuapp.com/";
+    const query = `${proxy}https://pro.openweathermap.org/data/2.5/climate/month?q=London&appid=${apikey}`;
     axios
-      .get(query)
+      .get(query, {
+        headers: {
+          "x-requested-With": "XMLHttpRequest",
+          "X-CSRFToken": "example-of-custom-header"
+        }
+      })
       .then(result => {
         return result.data;
       })
       .then(data => {
-        console.log(data)
-      })
-       
+        console.log(data);
+      });
   }
 };
 </script>
