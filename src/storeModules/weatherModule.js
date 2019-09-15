@@ -12,7 +12,7 @@ export default {
       const proxy = "https://cors-anywhere.herokuapp.com/";
       const query = `${proxy}https://api.openweathermap.org/data/2.5/forecast?q=${city}&mode=json&APPID=${apikey}`;
       async function requestWeatherForCity() {
-        let cityWeather = new Promise(resolve => {
+        let cityWeather = new Promise((resolve, reject) => {
           axios
             .get(query, {
               headers: {
@@ -20,19 +20,29 @@ export default {
                 "X-CSRFToken": "example-of-custom-header"
               }
             })
+            .catch(err => {
+              reject(new Error(err));
+            })
             .then(result => {
               resolve(result.data);
             });
         });
-        
-        state.weatherObj = await cityWeather;
+        state.weatherObj = await cityWeather.catch(() => {
+          return "something went wrong,\nare you sure the city name is correct?";
+        });
       }
-      requestWeatherForCity(this);
+      requestWeatherForCity();
+    },
+    changeCity(state, city) {
+      state.city = city;
     }
   },
   actions: {
     checkWeather({ commit }, payload) {
-      commit("checkWeather", payload.city)
+      commit("checkWeather", payload.city);
+    },
+    changeCity({ commit }, payload) {
+      commit("changeCity", payload.city);
     }
   }
-}
+};
