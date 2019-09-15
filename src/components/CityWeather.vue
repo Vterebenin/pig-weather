@@ -1,9 +1,9 @@
 <template>
   <div class="city-weather">
-    <div class="city-weather__wrapper">this is gonna be a weather</div>
-    <input type="text" :value="city" @input="updateCity" />
-    <button @click="checkWeather({ city })">checkWeather</button>
+    <h1 class="city-weather__wrapper">this is gonna be a weather</h1>
+    <v-text-field filled outlined label="City" dark color="#b35a82" type="text" :value="city" @input="updateCity" />
     <div class="city-weather__now">
+      <v-btn class="city-weather__btn" @click="checkWeather({ city })">checkWeather</v-btn>
       <pre>{{ weatherObj }}</pre>
     </div>
   </div>
@@ -34,7 +34,7 @@ export default {
   methods: {
     ...mapActions(["checkWeather", "changeCity"]),
     updateCity(e) {
-      this.$store.commit("changeCity", e.target.value);
+      this.$store.commit("changeCity", e);
     }
   },
   mounted() {
@@ -45,3 +45,17 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.city-weather {
+  text-align: center;
+  width: 100%;
+}
+.city-weather__now,
+.city-weather__btn {
+  text-align: left;
+}
+.city-weather__btn {
+  margin-bottom: 20px;
+}
+</style>

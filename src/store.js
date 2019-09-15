@@ -10,12 +10,12 @@ export default new Vuex.Store({
   },
   mutations: {
     increment(state) {
-      state.count++
+      state.count++;
     }
   },
   actions: {
     increment(context) {
-      context.commit("increment")
+      context.commit("increment");
     }
   },
   modules: {
