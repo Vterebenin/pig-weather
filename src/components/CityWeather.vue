@@ -10,6 +10,7 @@
     type='text' 
     :value='city' 
     @input='updateCity')
+  WeatherChart(:data="weatherObj")
   .city-weather__now
     v-btn.city-weather__btn(@click='checkWeather({ city })')
       span checkWeather
@@ -22,8 +23,13 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import WeatherChart from "@/components/WeatherChart.vue";
+
 export default {
   name: "CityWeather",
+  components: {
+    WeatherChart
+  },
   data() {
     return {
       inputCity: "test"
