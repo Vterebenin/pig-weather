@@ -1,15 +1,22 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import TheRoom from "./views/TheRoom.vue";
 
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
   routes: [
     {
       path: "/",
       name: "home",
       component: Home
+    },
+    {
+      path: "/room",
+      name: "room",
+      component: TheRoom
     },
     {
       path: "/about",
