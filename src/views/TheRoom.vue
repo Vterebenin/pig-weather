@@ -2,10 +2,10 @@
   <div id="blocker">
     <div id="instructions">
       <span style="font-size:36px">Click to play</span>
-      <br />
-      <br />Move: WASD
-      <br />Jump: SPACE
-      <br />Look: MOUSE
+      <br/>
+      <br/>Move: WASD
+      <br/>Jump: SPACE
+      <br/>Look: MOUSE
     </div>
   </div>
 </template>
@@ -246,18 +246,10 @@ export default {
 #instructions {
   width: 100%;
   height: 100%;
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-box-pack: center;
-  -moz-box-pack: center;
-  box-pack: center;
-  -webkit-box-align: center;
-  -moz-box-align: center;
-  box-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   color: #ffffff;
   text-align: center;
   font-family: Arial;
