@@ -56,6 +56,7 @@ export default {
   },
   mounted() {
     const { city } = this;
+    
     this.checkWeather({
       city
     });

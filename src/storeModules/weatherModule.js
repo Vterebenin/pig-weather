@@ -4,12 +4,12 @@ export default {
     city: "Smolensk",
     apikey: process.env.API_KEY,
     weatherTitle: "all fine",
-    weatherObj: ""
+    weatherObj: {}
   },
   mutations: {
     checkWeather(state, city) {
       const { apikey } = state;
-      state.weatherObj = ""
+      state.weatherObj = {}
       const proxy = "https://cors-anywhere.herokuapp.com/";
       const query = `${proxy}https://api.openweathermap.org/data/2.5/forecast?q=${city}&mode=json&APPID=${apikey}`;
       async function requestWeatherForCity() {

@@ -1,45 +1,51 @@
 
 <template>
-  <div class="small">
-    <line-chart :chart-data="datacollection"></line-chart>
-    <button @click="fillData()">Randomize</button>
+  <div id="chart-root">
+    123wqe
   </div>
 </template>
 
 <script>
-  import LineChart from './LineChart.js'
+import ApexCharts from 'apexcharts'
+export default {
+  name: "WeatherChart",
+  props: {
+    data: Object
+  },
+  mounted() {
+    async function dataTest(reducedThis) {
 
-  export default {
-    components: {
-      LineChart
-    },
-    data () {
-      return {
-        datacollection: null
-      }
-    },
-    mounted () {
-      this.fillData()
-    },
-    methods: {
-      fillData () {
-        this.datacollection = {
-          labels: [this.getRandomInt(),this.getRandomInt(),this.getRandomInt(),this.getRandomInt(),this.getRandomInt(), this.getRandomInt()],
-          datasets: [
-            {
-              label: 'Data One',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(),this.getRandomInt(),this.getRandomInt(),this.getRandomInt(),this.getRandomInt(), this.getRandomInt()]
-            }
-          ]
-        }
+      const { list } = await reducedThis.data
+      console.log(list);
+      const firstDayDt = new Date(list[0].dt)
+      return await reducedThis.data
+    }
+    
+    dataTest(this).then(data => {
+      return data
+    })
+
+    const options = {
+      chart: {
+        type: 'line'
       },
-      getRandomInt () {
-        return Math.floor(Math.random() * (200)) + 5
+      series: [{
+        name: 'sales',
+        data: [30, 30, 10, 80, 40, 40,]
+      }],
+      xaxis: {
+        categories: [1991,1991, 1992, 1993, 1992, 1993,] 
       }
     }
-  }
+    const element = document.querySelector("#chart-root")
+    const chart = new ApexCharts(element, options)
+    
+    chart.render();
+    // ! MOUNTED END
+  },
+}
 </script>
+
 
 <style>
   .small {
