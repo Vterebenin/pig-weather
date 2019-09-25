@@ -4,7 +4,8 @@ export default {
     city: "Smolensk",
     apikey: process.env.API_KEY,
     weatherTitle: "all fine",
-    weatherObj: {}
+    weatherObj: {},
+    list: {}
   },
   mutations: {
     checkWeather(state, city) {
@@ -31,6 +32,10 @@ export default {
         state.weatherObj = await cityWeather.catch(() => {
           return "something went wrong,\nare you sure the city name is correct?";
         });
+        const weatherCont = await cityWeather;
+        const { list } = weatherCont
+        console.log(list, "123")
+        state.list = list;
       }
       requestWeatherForCity();
     },

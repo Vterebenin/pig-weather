@@ -1,55 +1,73 @@
 
 <template>
-  <div id="chart-root">
-    123wqe
+  <div>
+    <div id="chart-root"></div>
+    <div v-if="list">
+      {{ list }}
+    </div>
+    <div v-else>
+      test
+    </div>
   </div>
 </template>
 
 <script>
-import ApexCharts from 'apexcharts'
+import ApexCharts from "apexcharts";
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "WeatherChart",
-  props: {
-    data: Object
+  computed: {
+    ...mapState({
+      city: state => state.wm.city,
+      list: state => state.wm.list,
+      weatherTitle: state => state.wm.weatherTitle,
+      weatherObj: state => state.wm.weatherObj
+    })
+  },
+  methods: {
+    ...mapActions(["checkWeather", "changeCity"]),
+    updateCity(e) {
+      this.$store.commit("changeCity", e);
+    }
   },
   mounted() {
-    async function dataTest(reducedThis) {
-
-      const { list } = await reducedThis.data
-      console.log(list);
-      const firstDayDt = new Date(list[0].dt)
-      return await reducedThis.data
-    }
+    // TODO брать данные из store, а не передавать через пропсы
+    const { city } = this;
+    console.log(city);
     
-    dataTest(this).then(data => {
-      return data
+    this.checkWeather({
+      city
     })
 
+    console.log(this.weatherObj);
     const options = {
       chart: {
-        type: 'line'
+        type: "line"
       },
-      series: [{
-        name: 'sales',
-        data: [30, 30, 10, 80, 40, 40,]
-      }],
+      series: [
+        {
+          name: "sales",
+          data: [30, 30, 10, 80, 40, 40]
+        }
+      ],
       xaxis: {
-        categories: [1991,1991, 1992, 1993, 1992, 1993,] 
+        categories: [1991, 1991, 1992, 1993, 1992, 1993]
       }
-    }
-    const element = document.querySelector("#chart-root")
-    const chart = new ApexCharts(element, options)
-    
+    };
+    const element = document.querySelector("#chart-root");
+    const chart = new ApexCharts(element, options);
+
     chart.render();
     // ! MOUNTED END
-  },
-}
+  }
+};
 </script>
 
 
 <style>
-  .small {
-    max-width: 600px;
-    margin:  150px auto;
-  }
+.small {
+  max-width: 600px;
+  margin: 150px auto;
+}
 </style>

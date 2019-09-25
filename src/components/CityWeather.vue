@@ -60,6 +60,7 @@ export default {
     this.checkWeather({
       city
     });
+
   }
 };
 </script>
