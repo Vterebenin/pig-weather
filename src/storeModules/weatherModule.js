@@ -5,7 +5,8 @@ export default {
     apikey: process.env.API_KEY,
     weatherTitle: "all fine",
     weatherObj: {},
-    list: {}
+    list: {},
+    chart5Data: []
   },
   mutations: {
     checkWeather(state, city) {
@@ -33,8 +34,14 @@ export default {
           return "something went wrong,\nare you sure the city name is correct?";
         });
         const weatherCont = await cityWeather;
+        state.chart5Data = []
         const { list } = weatherCont
-        console.log(list, "123")
+        list.forEach(weatherOfTheDay => {
+          const { dt } = weatherOfTheDay;
+          const tempCels = weatherOfTheDay.main.temp - 273.15;
+          state.chart5Data.push([dt, tempCels]);
+        });
+        console.log(state.chart5Data)
         state.list = list;
       }
       requestWeatherForCity();

@@ -14,11 +14,6 @@
   .city-weather__now
     v-btn.city-weather__btn(@click='checkWeather({ city })')
       span checkWeather
-    pre(v-if='weatherObj')
-      | {{ weatherObj }}
-                    
-    div(v-else='')
-      | loading...
 </template>
 
 <script>

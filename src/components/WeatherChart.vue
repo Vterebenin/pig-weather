@@ -2,12 +2,6 @@
 <template>
   <div>
     <div id="chart-root"></div>
-    <div v-if="list">
-      {{ list }}
-    </div>
-    <div v-else>
-      test
-    </div>
   </div>
 </template>
 
@@ -22,7 +16,8 @@ export default {
       city: state => state.wm.city,
       list: state => state.wm.list,
       weatherTitle: state => state.wm.weatherTitle,
-      weatherObj: state => state.wm.weatherObj
+      weatherObj: state => state.wm.weatherObj,
+      chartData: state => state.wm.chart5Data
     })
   },
   methods: {
@@ -31,26 +26,25 @@ export default {
       this.$store.commit("changeCity", e);
     }
   },
-  mounted() {
-    // TODO брать данные из store, а не передавать через пропсы
+  created() {
     const { city } = this;
-    console.log(city);
-    
+
     this.checkWeather({
       city
     })
+  },
+  mounted() {
+    // TODO брать данные из store, а не передавать через пропсы
+    
 
     console.log(this.weatherObj);
     const options = {
       chart: {
         type: "line"
       },
-      series: [
-        {
-          name: "sales",
-          data: [30, 30, 10, 80, 40, 40]
-        }
-      ],
+      series: [{
+          data: this.chartData
+      }],
       xaxis: {
         categories: [1991, 1991, 1992, 1993, 1992, 1993]
       }
