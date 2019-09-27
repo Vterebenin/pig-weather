@@ -1,6 +1,6 @@
 <template lang="pug">
 .city-weather
-  h1.city-weather__wrapper this is gonna be a weather
+  h1.city-weather__wrapper this is a weather for {{ city }}
   v-text-field(
     filled='' 
     outlined='' 
@@ -8,12 +8,12 @@
     dark='' 
     color='#b35a82' 
     type='text' 
-    :value='city' 
-    @input='updateCity')
-  WeatherChart
+    v-model='inputCity'
+    :value='city')
   .city-weather__now
-    v-btn.city-weather__btn(@click='checkWeather({ city })')
+    v-btn.city-weather__btn(@click='updateWeatherForCity(inputCity)')
       span checkWeather
+  WeatherChart
 </template>
 
 <script>
@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      inputCity: "test"
+      inputCity: "",
     };
   },
   computed: {
@@ -35,18 +35,21 @@ export default {
       city: state => state.wm.city,
       weatherTitle: state => state.wm.weatherTitle,
       weatherObj: state => state.wm.weatherObj
-    })
+    }),
   },
-  // watch: {
-  //   weatherobj: store.state.wm.weatherObj
-  // },
   props: {
     msg: String
   },
+  mounted() {
+    const { city } = this
+    this.$store.dispatch("checkWeather", this.city)
+  },
   methods: {
     ...mapActions(["checkWeather", "changeCity"]),
-    updateCity(e) {
-      this.$store.commit("changeCity", e);
+    updateWeatherForCity(city) {
+      this.$store.commit("changeCity", city);
+      console.log(this.city)
+      this.$store.dispatch("checkWeather", this.city)
     }
   },
 };

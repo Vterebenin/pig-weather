@@ -20,15 +20,56 @@ export default {
       chartData: state => state.wm.chart5Data
     })
   },
+  watch: {
+    city: function() {
+      this.updateChart(this.chartData);
+    }
+  },
   methods: {
     ...mapActions(["checkWeather", "changeCity"]),
     updateCity(e) {
       this.$store.commit("changeCity", e);
+    },
+    updateChart(chartData) {
+      // const chart
+      this.$store.dispatch("checkWeather", this.city).then(() => {
+        ApexCharts.exec("mychart", "updateSeries", [
+          {
+            data: chartData
+          }
+        ]);
+      });
+    },
+    renderChart(chartData) {
+      const options = {
+        chart: {
+          id: "mychart",
+          height: 380,
+          width: "100%",
+          type: "area",
+          animations: {
+            initialAnimation: {
+              enabled: false
+            }
+          }
+        },
+        series: [
+          {
+            data: chartData
+          }
+        ],
+        xaxis: {
+          type: "datetime"
+        }
+      };
+      const element = document.querySelector("#chart-root");
+      const chart = new ApexCharts(element, options);
+      chart.render();
     }
   },
+
   created() {
     const { city } = this;
-
   },
 
   mounted() {
@@ -36,24 +77,7 @@ export default {
 
     this.$store.dispatch("checkWeather", this.city).then(() => {
       console.log(this.weatherObj);
-      const options = {
-        chart: {
-          type: "line"
-        },
-        series: [
-          {
-            data: this.chartData
-          }
-        ],
-        xaxis: {
-          categories: [1991, 1991, 1992, 1993, 1992, 1993]
-        }
-      };
-      const element = document.querySelector("#chart-root");
-      const chart = new ApexCharts(element, options);
-
-      chart.render();
-      console.log("test");
+      this.renderChart(this.chartData);
     });
 
     // ! MOUNTED END
