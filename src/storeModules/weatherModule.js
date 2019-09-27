@@ -9,13 +9,33 @@ export default {
     chart5Data: []
   },
   mutations: {
-    checkWeather(state, city) {
-      const { apikey } = state;
-      state.weatherObj = {}
-      const proxy = "https://cors-anywhere.herokuapp.com/";
-      const query = `${proxy}https://api.openweathermap.org/data/2.5/forecast?q=${city}&mode=json&APPID=${apikey}`;
+    setWeatherObj(state, { weatherObj }) {
+      state.weatherObj = weatherObj
+    },
+    setWeatherTitle(state, { weatherTitle }) {
+      state.weatherTitle = weatherTitle
+    },
+    setList(state, { list }) {
+      state.list = list
+    },
+    setChart5Data(state, { chart5Data }) {
+      state.chart5Data = chart5Data
+    },
+    changeCity(state, city) {
+      state.city = city;
+    }
+  },
+  actions: {
+    changeCity({ commit }, payload) {
+      commit("changeCity", payload.city);
+    },
+    checkWeather({ commit, state }, city) {
       async function requestWeatherForCity() {
         let cityWeather = new Promise((resolve, reject) => {
+          const { apikey } = state;
+          commit('setWeatherObj', { weatherObj: {} })
+          const proxy = "https://cors-anywhere.herokuapp.com/";
+          const query = `${proxy}https://api.openweathermap.org/data/2.5/forecast?q=${city}&mode=json&APPID=${apikey}`;
           axios
             .get(query, {
               headers: {
@@ -30,32 +50,24 @@ export default {
               resolve(result.data);
             });
         });
-        state.weatherObj = await cityWeather.catch(() => {
+        let weatherObj = await cityWeather.catch(() => {
           return "something went wrong,\nare you sure the city name is correct?";
         });
-        const weatherCont = await cityWeather;
-        state.chart5Data = []
-        const { list } = weatherCont
-        list.forEach(weatherOfTheDay => {
-          const { dt } = weatherOfTheDay;
-          const tempCels = weatherOfTheDay.main.temp - 273.15;
-          state.chart5Data.push([dt, tempCels]);
+        commit('setWeatherObj', { weatherObj })
+
+        let chart5Data = []
+        commit('setChart5Data', { chart5Data })
+        const { list } = weatherObj
+        list.forEach(weatherOfTheHour => {
+          const { dt } = weatherOfTheHour;
+          const tempCels = weatherOfTheHour.main.temp - 273;
+          const tempCelsInt = Math.floor(tempCels)
+          chart5Data.push([dt, tempCelsInt]);
         });
-        console.log(state.chart5Data)
-        state.list = list;
+        console.log(chart5Data)
+        commit('setChart5Data', { chart5Data })
       }
-      requestWeatherForCity();
+      return requestWeatherForCity();
     },
-    changeCity(state, city) {
-      state.city = city;
-    }
-  },
-  actions: {
-    checkWeather({ commit }, payload) {
-      commit("checkWeather", payload.city);
-    },
-    changeCity({ commit }, payload) {
-      commit("changeCity", payload.city);
-    }
   }
 };

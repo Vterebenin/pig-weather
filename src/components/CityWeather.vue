@@ -10,7 +10,7 @@
     type='text' 
     :value='city' 
     @input='updateCity')
-  WeatherChart(:data="weatherObj")
+  WeatherChart
   .city-weather__now
     v-btn.city-weather__btn(@click='checkWeather({ city })')
       span checkWeather
@@ -49,14 +49,6 @@ export default {
       this.$store.commit("changeCity", e);
     }
   },
-  mounted() {
-    const { city } = this;
-    
-    this.checkWeather({
-      city
-    });
-
-  }
 };
 </script>
 
