@@ -48,7 +48,6 @@ export default {
     ...mapActions(["checkWeather", "changeCity"]),
     updateWeatherForCity(city) {
       this.$store.commit("changeCity", city);
-      console.log(this.city)
       this.$store.dispatch("checkWeather", this.city)
     }
   },

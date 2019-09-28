@@ -76,9 +76,10 @@ export default {
     // TODO брать данные из store, а не передавать через пропсы
 
     this.$store.dispatch("checkWeather", this.city).then(() => {
-      console.log(this.weatherObj);
       this.renderChart(this.chartData);
     });
+
+    console.log(new Date(1569682800))
 
     // ! MOUNTED END
   }

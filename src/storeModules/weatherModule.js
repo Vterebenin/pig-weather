@@ -64,7 +64,6 @@ export default {
           const tempCelsInt = Math.floor(tempCels)
           chart5Data.push([dt, tempCelsInt]);
         });
-        console.log(chart5Data)
         commit('setChart5Data', { chart5Data })
       }
       return requestWeatherForCity();
