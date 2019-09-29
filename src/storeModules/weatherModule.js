@@ -59,12 +59,17 @@ export default {
         commit('setChart5Data', { chart5Data })
         const { list } = weatherObj
         list.forEach(weatherOfTheHour => {
-          const { dt } = weatherOfTheHour;
+          const { dt_txt } = weatherOfTheHour;
           const tempCels = weatherOfTheHour.main.temp - 273;
           const tempCelsInt = Math.floor(tempCels)
-          chart5Data.push([dt, tempCelsInt]);
+          const coords = {
+            x: dt_txt,
+            y: tempCelsInt,
+          }
+          chart5Data.push(coords);
         });
         commit('setChart5Data', { chart5Data })
+        console.log(state.weatherObj)
       }
       return requestWeatherForCity();
     },

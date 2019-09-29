@@ -49,7 +49,7 @@ export default {
           type: "area",
           animations: {
             initialAnimation: {
-              enabled: false
+              enabled: true
             }
           }
         },
@@ -59,7 +59,21 @@ export default {
           }
         ],
         xaxis: {
-          type: "datetime"
+          labels: {
+            formatter: function (value) {
+              let newVal = value.split('-').join(' ').split(' ')
+              const year = newVal[0]
+              const monthNumber = new Date(newVal[1])
+              const month = monthNumber.toLocaleString('en', {month: 'short'})
+              const day = newVal[2]
+              let time = newVal[3].split(':')
+              time.pop()
+              time = time.join(':')
+              newVal = `${time} of ${day} ${month} ${year} `
+              console.log(newVal);
+              return newVal
+            }
+          }
         }
       };
       const element = document.querySelector("#chart-root");
@@ -79,7 +93,7 @@ export default {
       this.renderChart(this.chartData);
     });
 
-    console.log(new Date(1569682800))
+    console.log(new Date(1569682800));
 
     // ! MOUNTED END
   }
