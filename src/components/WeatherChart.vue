@@ -47,31 +47,95 @@ export default {
           height: 380,
           width: "100%",
           type: "area",
+          stacked: false,
           animations: {
             initialAnimation: {
               enabled: true
             }
+          },
+          zoom: {
+            type: "x",
+            enabled: true,
+            autoScaleYaxis: true
+          },
+          toolbar: {
+            autoSelected: "zoom"
           }
         },
         series: [
           {
+            name: "current temperature",
             data: chartData
           }
         ],
+        dataLabels: {
+          enabled: false
+        },
+        legend: {
+          show: true
+        },
+        title: {
+          text: "Forecast for 14 days"
+        },
         xaxis: {
           labels: {
-            formatter: function (value) {
-              let newVal = value.split('-').join(' ').split(' ')
-              const year = newVal[0]
-              const monthNumber = new Date(newVal[1])
-              const month = monthNumber.toLocaleString('en', {month: 'short'})
-              const day = newVal[2]
-              let time = newVal[3].split(':')
-              time.pop()
-              time = time.join(':')
-              newVal = `${time} of ${day} ${month} ${year} `
-              console.log(newVal);
-              return newVal
+            formatter: function(value) {
+              let newVal = value
+                .split("-")
+                .join(" ")
+                .split(" ");
+              const year = newVal[0];
+              const monthNumber = new Date(newVal[1]);
+              const month = monthNumber.toLocaleString("en", {
+                month: "short"
+              });
+              const day = newVal[2];
+              let time = newVal[3].split(":");
+              time.pop();
+              time = time.join(":");
+              newVal = ``;
+              return newVal;
+            },
+            showDuplicates: false,
+            rotate: 0,
+            trim: false
+            // hideOverlappingLabels: true,
+          },
+          axisTicks: {
+            show: false
+          }
+        },
+        yaxis: {
+          min: 0,
+          axisTicks: {
+            show: true
+          },
+          axisBorder: {
+            show: true
+          }
+        },
+        markers: {
+          size: 4
+        },
+        tooltip: {
+          x: {
+            show: false,
+            formatter: function(value) {
+              let newVal = value
+                .split("-")
+                .join(" ")
+                .split(" ");
+              const year = newVal[0];
+              const monthNumber = new Date(newVal[1]);
+              const month = monthNumber.toLocaleString("en", {
+                month: "short"
+              });
+              const day = newVal[2];
+              let time = newVal[3].split(":");
+              time.pop();
+              time = time.join(":");
+              newVal = `${time} of ${day} ${month}, ${year}`;
+              return newVal;
             }
           }
         }
@@ -102,8 +166,7 @@ export default {
 
 
 <style>
-.small {
+#chart-root {
   max-width: 600px;
-  margin: 150px auto;
 }
 </style>
