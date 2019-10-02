@@ -41,105 +41,42 @@ export default {
       });
     },
     renderChart(chartData) {
-      const options = {
+      var options = {
         chart: {
-          id: "mychart",
-          height: 380,
-          width: "100%",
-          type: "area",
-          stacked: false,
-          animations: {
-            initialAnimation: {
-              enabled: true
-            }
-          },
-          zoom: {
-            type: "x",
-            enabled: true,
-            autoScaleYaxis: true
-          },
-          toolbar: {
-            autoSelected: "zoom"
-          }
+          type: 'area',
+          height: 350,
         },
-        series: [
-          {
-            name: "current temperature",
-            data: chartData
-          }
-        ],
         dataLabels: {
           enabled: false
         },
-        legend: {
-          show: true
-        },
-        title: {
-          text: "Forecast for 14 days"
+        series: [{
+          name: "temp",
+          data: chartData,
+        }],
+        markers: {
+          size: 4,
+          style: 'hollow',
         },
         xaxis: {
-          labels: {
-            formatter: function(value) {
-              let newVal = value
-                .split("-")
-                .join(" ")
-                .split(" ");
-              const year = newVal[0];
-              const monthNumber = new Date(newVal[1]);
-              const month = monthNumber.toLocaleString("en", {
-                month: "short"
-              });
-              const day = newVal[2];
-              let time = newVal[3].split(":");
-              time.pop();
-              time = time.join(":");
-              newVal = ``;
-              return newVal;
-            },
-            showDuplicates: false,
-            rotate: 0,
-            trim: false
-            // hideOverlappingLabels: true,
-          },
-          axisTicks: {
-            show: false
-          }
-        },
-        yaxis: {
-          min: 0,
-          axisTicks: {
-            show: true
-          },
-          axisBorder: {
-            show: true
-          }
-        },
-        markers: {
-          size: 4
+          type: 'datetime',
+          tickAmount: 6,
         },
         tooltip: {
           x: {
-            show: false,
-            formatter: function(value) {
-              let newVal = value
-                .split("-")
-                .join(" ")
-                .split(" ");
-              const year = newVal[0];
-              const monthNumber = new Date(newVal[1]);
-              const month = monthNumber.toLocaleString("en", {
-                month: "short"
-              });
-              const day = newVal[2];
-              let time = newVal[3].split(":");
-              time.pop();
-              time = time.join(":");
-              newVal = `${time} of ${day} ${month}, ${year}`;
-              return newVal;
-            }
+            format: 'HH:mm dd MMM yyyy'
           }
-        }
-      };
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 100]
+          }
+        },
+
+      }
       const element = document.querySelector("#chart-root");
       const chart = new ApexCharts(element, options);
       chart.render();

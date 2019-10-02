@@ -8,7 +8,7 @@ import "./registerServiceWorker";
 import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
-Vue.use(VueThreejs)
+Vue.use(VueThreejs);
 
 new Vue({
   router,
